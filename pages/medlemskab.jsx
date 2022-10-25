@@ -15,8 +15,14 @@ export const getServerSideProps = async (context) => {
         const data = pages.find(p => p.slug == 'medlemskab')
         const imageRes = await fetch(mediaApi(data.featured_media))
         const imageData = await imageRes.json()
-        // const teamResp = await fetch(`${proxyServer} + ${holdOversigtUrl()}`)
-        const teamResp = await fetch(holdOversigtUrl())
+        const teamResp = await fetch(proxyServer, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({url: holdOversigtUrl()}),
+        })
+        console.log(teamResp);
         const teamData = await teamResp.text()
         const teams = findMatches(teamsRegex, teamData)
         return {
@@ -63,7 +69,6 @@ const Medlemskab = ({data, imageData, teams, error}) => {
                     </Inner>)}
                 
             </HoldWrapper>
-
         </Wrapper>
     </>
 };
