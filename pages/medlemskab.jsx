@@ -15,7 +15,7 @@ export const getServerSideProps = async (context) => {
         const data = pages.find(p => p.slug == 'medlemskab')
         const imageRes = await fetch(mediaApi(data.featured_media))
         const imageData = await imageRes.json()
-        const teamResp = await fetch(`${proxyServer} + ${encodeURIComponent(holdOversigtUrl())}`)
+        const teamResp = await fetch(`${proxyServer} + ${holdOversigtUrl()}`)
         const teamData = await teamResp.text()
         const teams = findMatches(teamsRegex, teamData)
         return {
