@@ -20,7 +20,7 @@ export default async (req, res) => {
         res.status(200).json(team)
     } catch (error) {
         // console.log(error);
-        res.status(500).send({error: error.text()});
+        res.status(500).send({error: JSON.stringify(error)});
     }
 
     
