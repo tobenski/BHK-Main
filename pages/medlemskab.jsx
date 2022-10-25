@@ -1,7 +1,7 @@
 import Error from "../Components/Common/Error/Error"
 import Loading from "../Components/Common/Loading/Loading"
 import styled from "styled-components"
-import { holdOversigtUrl } from "../Utils/conventus"
+import { holdOversigtUrl, proxyServer } from "../Utils/conventus"
 import { teamsRegex } from "../Utils/regex"
 import { findMatches } from "../Utils/functions"
 import HoldPopup from "../Components/Medlemskab/HoldPopup"
@@ -15,7 +15,7 @@ export const getServerSideProps = async (context) => {
         const data = pages.find(p => p.slug == 'medlemskab')
         const imageRes = await fetch(mediaApi(data.featured_media))
         const imageData = await imageRes.json()
-        const teamResp = await fetch(holdOversigtUrl())
+        const teamResp = await fetch(`${proxyServer} + ${encodeURIComponent(holdOversigtUrl())}`)
         const teamData = await teamResp.text()
         const teams = findMatches(teamsRegex, teamData)
         return {

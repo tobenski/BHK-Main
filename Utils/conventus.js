@@ -1,4 +1,5 @@
 export const foreningsId = process.env.NEXT_PUBLIC_CONVENTUS_FORENINGS_ID
+export const proxyServer = process.env.NEXT_PUBLIC_PROXY_URL
 
 export const holdPopupUrl = (gruppeId) => {
     return `https://www.conventus.dk/dataudv/www/holdpopup.php?foreningsid=${foreningsId}&gruppe=${gruppeId}&skjul_nyt_medlem=0&skjul_allerede_medlem=0&vindue=nyt_vindue&boks=1&kolonne_width=10&sprog=da`
