@@ -29,7 +29,7 @@ export const getServerSideProps = async (context) => {
         // console.log(error);
         return {
             props: {
-                error: 'error'
+                error: JSON.stringify(error)
             }
         }
     }
