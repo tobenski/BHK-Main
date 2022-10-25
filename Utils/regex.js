@@ -1,0 +1,3 @@
+export const teamRegex = /(?:<tr><td\ width\=\"10\%\">Titel:<\/td><td\ width\=\"90\%\">(?<name>.*?)<\/td><\/tr>)?(?:<tr><td\ valign\=\\\'top\\\'>Tid\ og\ sted:<\/td><td>(?<time>.*?)<br\ \/><\/td><\/tr>).*?(Ledere:<\/td><td.*?<tr><td>(?<coahes>.*?)<\/td><\/tr><\/table><\/td><\/tr>)?(?:<tr><td>Pris:<\/td><td>(?<price>.*?)\,\-\ DKK<\/td><\/tr>)+?(?:.*<tr><td\ valign\=\\\'top\\\'>Om\ holdet:<\/td><td>(?<description>.*?)<\/td><\/tr>)?/g
+
+export const teamsRegex = /<span class=\"pull-left\">((?<name>.*?)<\/span><span class="pull-right">.*?<div class="knapper".*?gruppe=(?<gruppeId>.*?)&skjul_nyt_medlem.*?)<\/div><\/div><\/div>/gi

@@ -1,0 +1,13 @@
+/<div class\=\"panel panel-default\"><div class\=\"panel-heading\"><h3 class\=\"panel-title cvt_43797\"><span class=\"pull-left\">(.*?)<\/div><\/div><\/div>/gm
+
+
+Den fejler i forhold til trænere, når der er flere. 
+/<div class\=\"panel panel-default\"><div class\=\"panel-heading\"><h3 class\=\"panel-title cvt_43797\"><span class=\"pull-left\">((?<name>.*?)<\/span><span class="pull-right">(?<price>.*?) DKK.*?="field">(?<time>[a-zA-Z]{3,4}dage.*?)<br \/><\/div>.*?<em>Træner<\/em><br \/>(?<coach>.*?)<\/div><div class="field">(?<description>.*?)<\/div><\/div><div class="knapper".*?(?<url>https:\/\/www\.conventus\.dk\/dataudv\/www\/new_tilmelding\.php\?foreningsid=7361&gruppe=(?<gruppeId>.*?)&skjul_nyt_medlem=0&skjul_allerede_medlem=0&sprog=da).*?)<\/div><\/div><\/div>/gi
+
+Fang hold navn & gruppe ID
+/<span class=\"pull-left\">((?<name>.*?)<\/span><span class="pull-right">.*?<div class="knapper".*?gruppe=(?<gruppeId>.*?)&skjul_nyt_medlem.*?)<\/div><\/div><\/div>/gi
+
+FANG alt om holdet
+/<tr><td.*?Titel:.*?">(?<titel>.*?)<\/td><\/tr>.*?Tid\ og\ sted:<\/td><td>(?<Tid>.*?)<br\ \/><\/td><\/tr><tr><td>.*?Ledere:.*?<tr>(?<coaches>.*?)<br\ \/><\/td><\/tr><\/table>.*?Pris:<\/td><td>(?<price>.*?)\,\-\ DKK.*?Om\ holdet:<\/td><td>(?<description>.*?)<\/td><\/tr>/g
+
+/(?><tr><td\ width\=\"10\%\">Titel:<\/td><td\ width\=\"90\%\">(?<name>.*?)<\/td><\/tr>)?(?><tr><td\ valign\=\\\'top\\\'>Tid\ og\ sted:<\/td><td>(?<time>.*?)<br\ \/><\/td><\/tr>).*?(?>Ledere:<\/td><td.*?<tr><td>(?<coahes>.*?)<\/td><\/tr><\/table><\/td><\/tr>)?(?><tr><td>Pris:<\/td><td>(?<price>.*?)\,\-\ DKK<\/td><\/tr>)/g

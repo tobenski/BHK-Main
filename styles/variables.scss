@@ -1,0 +1,32 @@
+:root {
+    /* text colors */
+    --text-dark-bg: rgba(255, 255, 255, 1);
+    --text-color: rgba(57, 57, 57, 1);
+
+    /* background colors */
+    --bg-dark: rgba(20, 23, 28, 1);
+    --bg-light: rgba(237, 237, 237, 1);
+    --bg-site: rgba(255, 255, 255, 1);
+    --bg-team-color: rgba(40, 116, 252, 1);
+    --bg-team-color-trans: rgba(40, 116, 252, 0);
+    --bg-team-dark: rgba(39, 59, 90, 1);
+    --bg-team-dark-trans: rgba(39, 59, 90, 0);
+
+    /* Header */
+    --bg-color-header: var(--bg-team-color);
+    --text-color-header: var(--text-dark-bg);
+
+    /* Footer */
+    --text-color-footer: var(--text-dark-bg);
+    --bg-color-footer: var(--bg-team-dark);
+
+    /* Navigation */
+    --text-color-navigation: var(--text-dark-bg);
+    --text-color-navigation-hover: rgba(255, 255, 255, 0.6);
+    --bg-color-navigation: var(--bg-team-dark);
+
+    /* fonts */
+    --fallback-ff: Arial, Helvetica, sans-serif;
+    --default-font: 'Poppins', var(--fallback-ff);
+    --header-font: var(--default-font);
+}

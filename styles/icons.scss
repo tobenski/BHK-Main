@@ -1,0 +1,16 @@
+.icon {
+    font-size: 3rem;
+    vertical-align: middle;
+    &.mail,
+    &.person {
+        margin-right: 0.5rem;
+        font-size: 2rem;
+    }
+
+    &.facebook,
+    &.instagram {
+        font-size: 3rem;
+        margin-right: 1rem;
+        margin-left: 1rem;
+    }
+}
