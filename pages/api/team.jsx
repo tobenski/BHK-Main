@@ -6,13 +6,14 @@ export default async (req, res) => {
     
     
     try {
-        const resp = await fetch(proxyServer, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({url: holdPopupUrl(id)}),
-        } )
+        // const resp = await fetch(proxyServer, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({url: holdPopupUrl(id)}),
+        // })
+        const resp = await fetch(holdPopupUrl(id))
         const data = await resp.text();
         const teamResp = findMatches(teamRegex, data)
         // console.log(data);
