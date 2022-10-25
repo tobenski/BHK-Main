@@ -22,7 +22,7 @@ export const getServerSideProps = async (context) => {
             },
             body: JSON.stringify({url: holdOversigtUrl()}),
         })
-        console.log(teamResp);
+        // console.log(teamResp);
         const teamData = await teamResp.text()
         const teams = findMatches(teamsRegex, teamData)
         return {
