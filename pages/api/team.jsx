@@ -1,18 +1,11 @@
 import { teamRegex } from "../../Utils/regex"
 import { findMatches } from "../../Utils/functions"
-import { holdPopupUrl, proxyServer } from "../../Utils/conventus"
+import { holdPopupUrl } from "../../Utils/conventus"
 export default async (req, res) => { 
     const { id } = req.query
     
     
     try {
-        // const resp = await fetch(proxyServer, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({url: holdPopupUrl(id)}),
-        // })
         const resp = await fetch(holdPopupUrl(id))
         const data = await resp.text();
         const teamResp = findMatches(teamRegex, data)

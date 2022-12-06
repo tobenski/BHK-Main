@@ -41,7 +41,7 @@ const HoldPopup = ({gruppeId}) => {
 
 const Wrapper = styled.div`
     padding: 5rem 2rem;    
-    color: black;
+    color: var(--text-color);
     @media only screen and (min-width: 768px) {
         width: 60%;
     }    
@@ -61,13 +61,13 @@ const Button = styled.a`
     border: 0.25rem solid black;
     border-radius: 2rem;
     text-decoration: none;
-    color: black;
+    color: var(--text-color);
     font-size: 1.5rem;
     text-transform: uppercase;
     font-weight: 900;
-    background-color: rgba(240,240,240,0.5);
+    background-color: var(--bg-page-content);
     &:hover {
-        background-color: rgba(240,240,240,0.3);
+        background-color: var(--bg-page-content-hover);
     }
 `
 

@@ -2,6 +2,7 @@
     /* text colors */
     --text-dark-bg: rgba(255, 255, 255, 1);
     --text-color: rgba(57, 57, 57, 1);
+    --text-black: rgba(0,0,0,1);
 
     /* background colors */
     --bg-dark: rgba(20, 23, 28, 1);
@@ -11,6 +12,9 @@
     --bg-team-color-trans: rgba(40, 116, 252, 0);
     --bg-team-dark: rgba(39, 59, 90, 1);
     --bg-team-dark-trans: rgba(39, 59, 90, 0);
+    --bg-page-content: rgba(240,240,240,0.7);
+    --bg-page-content-hover: rgba(240,240,240,1.0);
+    --bg-page-content-hover-hold: rgba(240,240,240,0.4);
 
     /* Header */
     --bg-color-header: var(--bg-team-color);

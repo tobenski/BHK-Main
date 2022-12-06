@@ -17,7 +17,7 @@ const Menu = () => {
                 {navi.map((item, i) => {
                     return (
                         <React.Fragment key={item.ID}>
-                            <Link href={item.acf.relative_url} scroll={false}>
+                            <Link href={item.acf.relative_url} scroll={true}>
                                 <TopLink onClick={() => closeNav()}>
                                     {item.title}
                                 </TopLink>
@@ -89,6 +89,7 @@ const OverlayContent = styled.div`
     top: 5%;
     width: 100%;
     text-align: center;
+    pointer-events: all;
 `
 
 export default Menu

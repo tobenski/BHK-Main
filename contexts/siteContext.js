@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
+import { navigationApi } from '../Utils/api'
 
 const SiteContext = createContext()
 
@@ -22,7 +23,7 @@ export const SiteProvider = ({ children }) => {
     const getNavi = async () => {
         try {
             const resp = await fetch(
-                `${process.env.NEXT_PUBLIC_API_NAVIGATION}3`
+                `${navigationApi}3`
             )
             const data = await resp.json()
             setNavi(data.items)
@@ -30,6 +31,8 @@ export const SiteProvider = ({ children }) => {
             setError(error)
         }
     }
+
+
     useEffect(() => {
         getNavi()
     }, [])
@@ -44,6 +47,7 @@ export const SiteProvider = ({ children }) => {
                 closeNav,
                 navi,
                 error,
+                // token,
             }}>
             {children}
         </SiteContext.Provider>

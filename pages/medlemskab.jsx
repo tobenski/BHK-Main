@@ -1,29 +1,19 @@
 import Error from "../Components/Common/Error/Error"
 import Loading from "../Components/Common/Loading/Loading"
 import styled from "styled-components"
-import { holdOversigtUrl, proxyServer } from "../Utils/conventus"
+import { holdOversigtUrl } from "../Utils/conventus"
 import { teamsRegex } from "../Utils/regex"
 import { findMatches } from "../Utils/functions"
 import HoldPopup from "../Components/Medlemskab/HoldPopup"
 import { useState } from "react"
-import { mediaApi, pagesApi } from "../Utils/api"
+import { apiCall, mediaApi, pagesApi } from "../Utils/api"
 
 export const getServerSideProps = async (context) => {
     try {
-        const res = await fetch(pagesApi)
-        const pages = await res.json()
-        const data = pages.find(p => p.slug == 'medlemskab')
-        const imageRes = await fetch(mediaApi(data.featured_media))
-        const imageData = await imageRes.json()
-        // const teamResp = await fetch(proxyServer, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({url: holdOversigtUrl()}),
-        // })
+        const result = await apiCall(pagesApi('medlemskab'))        
+        const data = result[0];
+        const imageData = await apiCall(mediaApi(data.featured_media))
         const teamResp = await fetch(holdOversigtUrl())
-        // console.log(teamResp);
         const teamData = await teamResp.text()
         const teams = findMatches(teamsRegex, teamData)
         return {
@@ -34,10 +24,10 @@ export const getServerSideProps = async (context) => {
             }
         }
     } catch (error) {
-        // console.log(error);
+        console.log(error);
         return {
             props: {
-                error: JSON.stringify(error)
+                error: JSON.stringify(error.message)
             }
         }
     }
@@ -78,7 +68,7 @@ const Inner = styled.div`
     /* width: 60%; */
     padding: 5rem 2rem;
     
-    color: black;
+    color: var(--text-color);
     @media only screen and (min-width: 768px) {
         width: 60%;
     }
@@ -87,7 +77,7 @@ const Inner = styled.div`
 const Wrapper = styled.section`
     width: 100%;
     height: 100%;
-    min-height: 100vh;
+    /* min-height: 100vh; */
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -104,6 +94,7 @@ const Wrapper = styled.section`
 
     padding-top: 5rem;
     padding-bottom: 5rem;
+
 
     h1 {
         margin-top: 1rem;
@@ -133,11 +124,15 @@ const Wrapper = styled.section`
 const HoldWrapper = styled.div` // TODO: SKAL NOK STAKKE PÅ MINDRE SKÆRME.
     border-radius: 2rem;
     width: 70%;
+    min-height: 60vh;
     display: flex;
     flex-direction: column;
-    background-color: rgba(240,240,240,0.5);
+    background-color: var(--bg-page-content);
     @media only screen and (min-width: 768px) {
         flex-direction: row;
+    }
+    @media only screen and (min-width: 1024px) {
+        min-height: 50vh;
     }
 `
 const HoldListe = styled.div`
@@ -150,6 +145,7 @@ const HoldListe = styled.div`
     border-bottom: 1px solid black;
     @media only screen and (min-width: 768px) {
         width: 40%;
+        border-bottom: none;
         border-right: 1px solid black;
     }
 `
@@ -162,8 +158,9 @@ const Hold = styled.button`
     background-color: transparent;
     border: none;
     padding: 0.5rem 3rem;
+    color: var(--text-color);
     &:hover, &:focus {
-        background-color: darkgray;
+        background-color: var(--bg-page-content-hover-hold);
     }
 `
 

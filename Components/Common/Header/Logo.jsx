@@ -12,7 +12,7 @@ const Logo = () => {
     
     return (
         <Outer>
-            <Link href='/#top'>
+            <Link href='/'>
                 <a> 
                     <Image
                         src={data.logo.image}
