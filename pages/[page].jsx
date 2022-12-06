@@ -1,16 +1,18 @@
 import { apiCall, mediaApi, pagesApi, tokenApi } from '../Utils/api'
 import styled from 'styled-components'
 import Loading from '../Components/Common/Loading/Loading'
+import Error from '../Components/Common/Error/Error'
 
 export const getServerSideProps = async (ctx) => {
     try {
         // const result = await apiCall(pagesApi(ctx.params.page))
         const result = await apiCall(pagesApi('kontakt'))
-        const image = await apiCall(mediaApi(result[0].featured_media))
+        const data = result[0]
+        const imageData = await apiCall(mediaApi(data.featured_media))
         return {
             props: {
-                page: result[0],
-                image,
+                data,
+                imageData,
             },
         }
     } catch (error) {
@@ -23,17 +25,18 @@ export const getServerSideProps = async (ctx) => {
     }
 }
 
-const Page = ({ page, image }) => {
-    if (!page || !image) return <Loading />
+const Page = ({ data, imageData, error }) => {
+    if (error) return <Error error={error} />
+    if (!data || !imageData) return <Loading />
     // console.log(image);
     return (
         <Wrapper
             style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), url(${image.guid.rendered})`,
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), url(${imageData.guid.rendered})`,
             }}>
-            <h1>{page.title.rendered}</h1>
+            <h1>{data.title.rendered}</h1>
             <Content
-                dangerouslySetInnerHTML={{ __html: page.content.rendered }}
+                dangerouslySetInnerHTML={{ __html: data.content.rendered }}
                 // dangerouslySetInnerHTML={{ __html: page }}
             />
         </Wrapper>
