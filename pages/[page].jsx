@@ -5,8 +5,8 @@ import Error from '../Components/Common/Error/Error'
 
 export const getServerSideProps = async (ctx) => {
     try {
-        // const result = await apiCall(pagesApi(ctx.params.page))
-        const result = await apiCall(pagesApi('kontakt'))
+        const result = await apiCall(pagesApi(ctx.params.page))
+        // const result = await apiCall(pagesApi('kontakt'))
         const data = result[0]
         const imageData = await apiCall(mediaApi(data.featured_media))
         return {
