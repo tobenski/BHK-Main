@@ -4,7 +4,8 @@ import Loading from '../Components/Common/Loading/Loading'
 
 export const getServerSideProps = async (ctx) => {
     try {
-        const result = await apiCall(pagesApi(ctx.params.page))
+        // const result = await apiCall(pagesApi(ctx.params.page))
+        const result = await apiCall(pagesApi('kontakt'))
         const image = await apiCall(mediaApi(result[0].featured_media))
         return {
             props: {
