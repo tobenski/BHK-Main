@@ -1,18 +1,25 @@
 import useNews from '../../../Hooks/useNews'
 import styled from 'styled-components'
 import Loading from '../Loading/Loading'
+import Error from '../Error/Error'
+import useMedia from '../../../Hooks/useMedia'
 
 const News = () => {
     const { data, isLoading, isError } = useNews()
 
     if (isLoading) return <Loading />
-    if (isError) return <h1>ERROR, {isError}</h1>
+    if (isError)
+        return (
+            <h1>
+                <Error />, {isError}
+            </h1>
+        )
 
     return (
         <NewsWrapper id='nyheder'>
-            <Header>{data.header}</Header>
+            <Header>Nyheder</Header>
             <CardWrapper>
-                {data.news.map((n, i) => {
+                {data.map((n, i) => {
                     return <NewsCard key={i.toString()} card={n} />
                 })}
             </CardWrapper>
@@ -49,18 +56,28 @@ const CardWrapper = styled.div`
 `
 
 const NewsCard = ({ card }) => {
+    const { data: image, isLoading, isError } = useMedia(card.acf.image)
+    if (isLoading) return <Loading />
+    if (isError)
+        return (
+            <h1>
+                <Error />, {isError}
+            </h1>
+        )
     return (
         <Card>
-            <CardImage src={card.image} alt={card.name} />
+            <CardImage src={image.guid.rendered} alt={card.title.rendered} />
             <CardHeader>
                 <a
-                    href={card.url}
-                    dangerouslySetInnerHTML={{ __html: card.name }}></a>
+                    href={card.acf.url}
+                    dangerouslySetInnerHTML={{
+                        __html: card.title.rendered,
+                    }}></a>
                 {/* TODO LAV DET TIL EN NEXT LINK DER RAMMER EN INTERN SIDE MED NYHEDEN (ELLER EN MODAL MED NYHEDEN) */}
             </CardHeader>
             <CardContent
                 dangerouslySetInnerHTML={{
-                    __html: card.manchet,
+                    __html: card.acf.manchet,
                 }}></CardContent>
         </Card>
     )

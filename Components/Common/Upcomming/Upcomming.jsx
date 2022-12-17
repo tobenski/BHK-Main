@@ -1,5 +1,6 @@
 import useGames from '../../../Hooks/useGames'
 import styled from 'styled-components'
+import Error from '../Error/Error'
 import Loading from '../Loading/Loading'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -16,11 +17,16 @@ const Upcomming = () => {
     const { data, isLoading, isError } = useGames()
 
     if (isLoading) return <Loading />
-    if (isError) return <h1>ERROR, {isError}</h1>
+    if (isError)
+        return (
+            <h1>
+                <Error />, {isError}
+            </h1>
+        )
 
     return (
         <Games id='games'>
-            <Header>{data.header}</Header>
+            <Header>Kommende Kampe</Header>
             <Swiper
                 slidesPerView={3}
                 spaceBetween={20}
@@ -31,7 +37,7 @@ const Upcomming = () => {
                 }}
                 modules={[Pagination, Navigation]}
                 className='wrapper'>
-                {data.games.map((game, i) => {
+                {data.map((game, i) => {
                     const [day, month, year] = game.date.split('-')
                     const date = new Date(year, month - 1, day)
                     if (date <= Date.now()) {
@@ -39,27 +45,28 @@ const Upcomming = () => {
                     }
                     return (
                         <SwiperSlide key={i.toString()} className='card'>
-                            <Inner>
-                                <CardHeader
-                                    dangerouslySetInnerHTML={{
-                                        __html:
-                                            'Brædstrup HK vs. ' + game.opponent,
-                                    }}></CardHeader>
-                                <CardSubHeader>{game.team}</CardSubHeader>
-                                <DateWrapper>
-                                    {game.date + ' ' + game.time}
-                                </DateWrapper>
-                                <Location>
-                                    {game.home
-                                        ? 'Brædstrup Hallen'
-                                        : game.opponent}
-                                </Location>
-                            </Inner>
+                            <Slide data={game} />
                         </SwiperSlide>
                     )
                 })}
             </Swiper>
         </Games>
+    )
+}
+
+const Slide = ({ data }) => {
+    return (
+        <Inner>
+            <CardHeader
+                dangerouslySetInnerHTML={{
+                    __html: 'Brædstrup HK vs. ' + data.acf.opponent,
+                }}></CardHeader>
+            <CardSubHeader>{data.acf.team}</CardSubHeader>
+            <DateWrapper>{data.acf.date + ' ' + data.acf.time}</DateWrapper>
+            <Location>
+                {data.acf.home ? 'Brædstrup Hallen' : data.acf.opponent}
+            </Location>
+        </Inner>
     )
 }
 

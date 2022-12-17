@@ -2,6 +2,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import styled from 'styled-components'
 import { Slide, ThumbSlide } from './Slide'
 import Loading from '../Loading/Loading'
+import Error from '../Error/Error'
 import useHeroSlider from '../../../Hooks/useHeroSlider'
 
 // Import Swiper styles
@@ -19,7 +20,12 @@ const Hero = () => {
     const { data, isLoading, isError } = useHeroSlider()
 
     if (isLoading) return <Loading />
-    if (isError) return <h1>ERROR, {isError}</h1>
+    if (isError)
+        return (
+            <h1>
+                <Error />, {isError}
+            </h1>
+        )
     return (
         <HeroSection id='top'>
             <Swiper
@@ -38,7 +44,7 @@ const Hero = () => {
                 }}
                 modules={[Navigation, Thumbs]}
                 className='myHeroSwiper'>
-                {data.slides.map((item, i) => {
+                {data.map((item, i) => {
                     return (
                         <SwiperSlide className='slides' key={i.toString()}>
                             <Slide data={item} />
@@ -54,7 +60,7 @@ const Hero = () => {
                 watchSlidesProgress={true}
                 modules={[Navigation, Thumbs]}
                 className='thumbnails'>
-                {data.slides.map((item, i) => {
+                {data.map((item, i) => {
                     return (
                         <SwiperSlide className='slides' key={i.toString()}>
                             <ThumbSlide data={item} />

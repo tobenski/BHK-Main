@@ -22,16 +22,13 @@ export const SiteProvider = ({ children }) => {
 
     const getNavi = async () => {
         try {
-            const resp = await fetch(
-                `${navigationApi}3`
-            )
+            const resp = await fetch(`${navigationApi}main`)
             const data = await resp.json()
             setNavi(data.items)
         } catch (error) {
             setError(error)
         }
     }
-
 
     useEffect(() => {
         getNavi()

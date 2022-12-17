@@ -1,9 +1,11 @@
 import useSWR from 'swr'
 import { baseApi } from '../Utils/api'
 
-const useNews = () => {
+const useMedia = (id) => {
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
-    const { data, error } = useSWR(`${baseApi}newspost`, fetcher)
+
+    const { data, error } = useSWR(`${baseApi}media/${id}`, fetcher)
+
     return {
         data: data,
         isLoading: !error && !data,
@@ -11,4 +13,4 @@ const useNews = () => {
     }
 }
 
-export default useNews
+export default useMedia

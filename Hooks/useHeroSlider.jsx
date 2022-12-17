@@ -1,17 +1,12 @@
 import useSWR from 'swr'
+import { baseApi } from '../Utils/api'
 
 const useHeroSlider = () => {
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
-    const { data, error } = useSWR(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}heroes`,
-        fetcher
-    )
+    const { data, error } = useSWR(`${baseApi}heroslide`, fetcher)
 
     return {
-        data: {
-            slides: data,
-        },
-
+        data: data,
         isLoading: !error && !data,
         isError: error,
     }

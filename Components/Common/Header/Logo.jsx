@@ -9,15 +9,15 @@ const Logo = () => {
 
     if (isLoading) return <Loading />
     if (isError) return <h1>ERROR, {isError}</h1>
-    
     return (
         <Outer>
             <Link href='/'>
-                <a> 
+                <a>
                     <Image
                         src={data.logo.image}
                         alt={data.logo.alt}
                         layout='fill'
+                        // priority={true}
                     />
                 </a>
             </Link>
@@ -42,4 +42,4 @@ const Outer = styled.div`
 export default Logo
 
 // TODO Kan jeg ikke sende hæjde og bredde info med over, og lade det være responsiv?
-// TODO: Ændre Logo image parent til relative i stedet for static. 
+// TODO: Ændre Logo image parent til relative i stedet for static.

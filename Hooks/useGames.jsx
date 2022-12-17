@@ -1,16 +1,11 @@
 import useSWR from 'swr'
+import { baseApi } from '../Utils/api'
 
 const useGames = () => {
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
-    const { data, error } = useSWR(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}games`,
-        fetcher
-    )
+    const { data, error } = useSWR(`${baseApi}game`, fetcher)
     return {
-        data: {
-            header: 'Kommende Kampe',
-            games: data,
-        },
+        data: data,
         isLoading: !error && !data,
         isError: error,
     }

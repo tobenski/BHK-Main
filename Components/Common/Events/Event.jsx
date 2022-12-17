@@ -1,17 +1,29 @@
 import styled from 'styled-components'
+import useMedia from '../../../Hooks/useMedia'
+import Loading from '../Loading/Loading'
+import Error from '../Error/Error'
 
 const Event = ({ event }) => {
+    const { data, isLoading, isError } = useMedia(event.acf.image)
+    if (isLoading) return <Loading />
+    if (isError)
+        return (
+            <h1>
+                <Error />, {isError}
+            </h1>
+        )
     return (
         <Card>
-            <CardImage src={event.image} />
+            <CardImage src={data.guid.rendered} />
             <CardHeader>
-                <a href={event.link}>{event.title}</a>
+                <a href={event.link}>{event.title.rendered}</a>
             </CardHeader>
-            <Subtitle>{event.subtitle}</Subtitle>
-            <DateWrap>{event.date}</DateWrap>
+            <Subtitle>{event.acf.subtitle}</Subtitle>
+            <DateWrap>{event.acf.date}</DateWrap>
+            {/* TODO: make data af time / date field */}
             <CardContent
                 dangerouslySetInnerHTML={{
-                    __html: event.content,
+                    __html: event.acf.content,
                 }}></CardContent>
         </Card>
     )

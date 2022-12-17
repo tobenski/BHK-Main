@@ -1,16 +1,11 @@
 import useSWR from 'swr'
+import { baseApi } from '../Utils/api'
 
 const useSponsors = () => {
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
-    const { data, error } = useSWR(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}sponsors`,
-        fetcher
-    )
+    const { data, error } = useSWR(`${baseApi}sponsor`, fetcher)
     return {
-        data: {
-            header: 'Støt sponsorne - De støtter os...',
-            sponsors: data,
-        },
+        data: data,
         isLoading: !error && !data,
         isError: error,
     }

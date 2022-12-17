@@ -1,38 +1,45 @@
-import { apiCall, mediaApi, pagesApi, tokenApi } from '../Utils/api'
+import { pagesApi } from '../Utils/api'
 import styled from 'styled-components'
 import Loading from '../Components/Common/Loading/Loading'
 import Error from '../Components/Common/Error/Error'
+import useMedia from '../Hooks/useMedia'
 
 export const getServerSideProps = async (ctx) => {
     try {
-        const result = await apiCall(pagesApi(ctx.params.page))
-        // const result = await apiCall(pagesApi('kontakt'))
-        const data = result[0]
-        const imageData = await apiCall(mediaApi(data.featured_media))
+        const resp = await fetch(pagesApi(ctx.params.page))
+        const ar = await resp.json()
+
+        if (!ar.length) {
+            return {
+                notFound: true,
+            }
+        }
         return {
             props: {
-                data,
-                imageData,
+                data: ar[0],
             },
         }
     } catch (error) {
         console.log(error)
         return {
-            props: {
-                error: JSON.stringify(error.message),
-            },
+            notFound: true,
         }
     }
 }
 
-const Page = ({ data, imageData, error }) => {
-    if (error) return <Error error={error} />
-    if (!data || !imageData) return <Loading />
-    // console.log(image);
+const Page = ({ data, error }) => {
+    const { data: image, isLoading, isError } = useMedia(data.featured_media)
+    if (isLoading || !data) return <Loading />
+    if (error || isError)
+        return (
+            <h1>
+                <Error />, {isError}
+            </h1>
+        )
     return (
         <Wrapper
             style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), url(${imageData.guid.rendered})`,
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), url(${image.guid.rendered})`,
             }}>
             <h1>{data.title.rendered}</h1>
             <Content

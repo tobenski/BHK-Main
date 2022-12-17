@@ -1,73 +1,97 @@
-import Error from "../Components/Common/Error/Error"
-import Loading from "../Components/Common/Loading/Loading"
-import styled from "styled-components"
-import { holdOversigtUrl } from "../Utils/conventus"
-import { teamsRegex } from "../Utils/regex"
-import { findMatches } from "../Utils/functions"
-import HoldPopup from "../Components/Medlemskab/HoldPopup"
-import { useState } from "react"
-import { apiCall, mediaApi, pagesApi } from "../Utils/api"
+import Error from '../Components/Common/Error/Error'
+import Loading from '../Components/Common/Loading/Loading'
+import styled from 'styled-components'
+import { holdOversigtUrl } from '../Utils/conventus'
+import { teamsRegex } from '../Utils/regex'
+import { findMatches } from '../Utils/functions'
+import HoldPopup from '../Components/Medlemskab/HoldPopup'
+import { useState } from 'react'
+import { pagesApi } from '../Utils/api'
+import useMedia from '../Hooks/useMedia'
 
 export const getServerSideProps = async (context) => {
     try {
-        const result = await apiCall(pagesApi('medlemskab'))        
-        const data = result[0];
-        const imageData = await apiCall(mediaApi(data.featured_media))
+        const resp = await fetch(pagesApi('medlemskab'))
+        const ar = await resp.json()
+        if (!ar.length) {
+            return {
+                notFound: true,
+            }
+        }
+        const data = ar[0]
         const teamResp = await fetch(holdOversigtUrl())
         const teamData = await teamResp.text()
         const teams = findMatches(teamsRegex, teamData)
         return {
             props: {
                 data,
-                imageData,
                 teams,
-            }
+            },
         }
     } catch (error) {
-        console.log(error);
+        console.log(error)
         return {
             props: {
-                error: JSON.stringify(error.message)
-            }
+                error: JSON.stringify(error.message),
+            },
         }
     }
-
 }
 
-
-const Medlemskab = ({data, imageData, teams, error}) => {
-    // const [gruppeId, setGruppeId] = useState(teams[0][3])
+const Medlemskab = ({ data, teams, error }) => {
+    const { data: image, isLoading, isError } = useMedia(data.featured_media)
     const [gruppeId, setGruppeId] = useState(null)
-    if (error) return <Error error={error} />
-    if (!data || !imageData || !teams) return <Loading />
+    if (isLoading || !teams) return <Loading />
+
+    if (isError || error)
+        return (
+            <h1>
+                <Error />, {isError}
+            </h1>
+        )
+
     // TODO: FIX på MOBIL
-    return <>
-        <Wrapper style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), url(${imageData.guid.rendered})`,
-            }}>
-             <h1>{data.title.rendered}</h1>
-            <HoldWrapper>
-                <HoldListe>
-                    {teams.map((t, i) => {
-                        return <Hold key={t[3]} value={t[3]} dangerouslySetInnerHTML={{ __html:t[2]}} onClick={(e) => setGruppeId(e.target.value)} />
+    return (
+        <>
+            <Wrapper
+                style={{
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), url(${image.guid.rendered})`,
+                }}>
+                <h1>{data.title.rendered}</h1>
+                <HoldWrapper>
+                    <HoldListe>
+                        {teams.map((t, i) => {
+                            return (
+                                <Hold
+                                    key={t[3]}
+                                    value={t[3]}
+                                    dangerouslySetInnerHTML={{ __html: t[2] }}
+                                    onClick={(e) => setGruppeId(e.target.value)}
+                                />
+                            )
                         })}
-                </HoldListe>
-                {gruppeId ? 
-                    <HoldPopup gruppeId={gruppeId} /> 
-                        : 
-                    (<Inner>
-                        <div dangerouslySetInnerHTML={{  __html: data.content.rendered}} />
-                    </Inner>)}
-                
-            </HoldWrapper>
-        </Wrapper>
-    </>
-};
+                    </HoldListe>
+                    {gruppeId ? (
+                        <HoldPopup gruppeId={gruppeId} />
+                    ) : (
+                        <Inner>
+                            <div
+                                dangerouslySetInnerHTML={{
+                                    __html: data.content.rendered,
+                                }}
+                            />
+                        </Inner>
+                    )}
+                </HoldWrapper>
+            </Wrapper>
+        </>
+    )
+}
 
 const Inner = styled.div`
     /* width: 60%; */
     padding: 5rem 2rem;
-    
+
     color: var(--text-color);
     @media only screen and (min-width: 768px) {
         width: 60%;
@@ -95,7 +119,6 @@ const Wrapper = styled.section`
     padding-top: 5rem;
     padding-bottom: 5rem;
 
-
     h1 {
         margin-top: 1rem;
         margin-bottom: 2rem;
@@ -114,14 +137,13 @@ const Wrapper = styled.section`
     }
 
     @media only screen and (min-width: 768px) {
-
     }
 
     @media only screen and (min-width: 1536px) {
-
     }
 `
-const HoldWrapper = styled.div` // TODO: SKAL NOK STAKKE PÅ MINDRE SKÆRME.
+const HoldWrapper = styled.div`
+    // TODO: SKAL NOK STAKKE PÅ MINDRE SKÆRME.
     border-radius: 2rem;
     width: 70%;
     min-height: 60vh;
@@ -136,7 +158,6 @@ const HoldWrapper = styled.div` // TODO: SKAL NOK STAKKE PÅ MINDRE SKÆRME.
     }
 `
 const HoldListe = styled.div`
-    
     padding: 5rem 0;
     display: flex;
     flex-direction: column;
@@ -159,11 +180,10 @@ const Hold = styled.button`
     border: none;
     padding: 0.5rem 3rem;
     color: var(--text-color);
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
         background-color: var(--bg-page-content-hover-hold);
     }
 `
-
-
 
 export default Medlemskab

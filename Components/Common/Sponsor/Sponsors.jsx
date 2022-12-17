@@ -5,15 +5,17 @@ import useSponsors from '../../../Hooks/useSponsors'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import { Autoplay } from 'swiper'
+import Sponsor from './Sponsor'
 
 const Sponsors = () => {
     const { data, isLoading, isError } = useSponsors()
 
     if (isLoading) return <Loading />
     if (isError) return <h1>ERROR, {isError}</h1>
+
     return (
         <SponserSection id='sponsor'>
-            <Header>{data.header}</Header>
+            <Header>Støt sponsorne - De støtter os...</Header>
             <Wrapper>
                 <Swiper
                     spaceBetween={30}
@@ -37,15 +39,10 @@ const Sponsors = () => {
                     }}
                     modules={[Autoplay]}
                     className='mySponsorSwiper'>
-                    {data.sponsors.map((s, i) => {
+                    {data.map((s, i) => {
                         return (
                             <SwiperSlide key={i.toString()}>
-                                <a
-                                    href={s.url}
-                                    target='_blank'
-                                    rel='noreferrer'>
-                                    <Logo src={s.image} />
-                                </a>
+                                <Sponsor data={s} />
                             </SwiperSlide>
                         )
                     })}
@@ -72,11 +69,5 @@ const SponserSection = styled.section`
 `
 const Header = styled.h2``
 const Wrapper = styled.div``
-const Logo = styled.img`
-    /* width: auto; */
-    max-width: 100%;
-    height: 112px;
-    /* height: 100%; */
-`
 
 export default Sponsors

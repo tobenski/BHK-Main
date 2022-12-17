@@ -1,18 +1,26 @@
 import useEvents from '../../../Hooks/useEvents'
 import styled from 'styled-components'
 import Loading from '../Loading/Loading'
+import Error from '../Error/Error'
 import Event from './Event'
 
 const Events = () => {
     const { data, isLoading, isError } = useEvents()
 
     if (isLoading) return <Loading />
-    if (isError) return <h1>ERROR, {isError}</h1>
+    if (isError)
+        return (
+            <h1>
+                <Error />, {isError}
+            </h1>
+        )
+    // console.log(data)
     return (
         <EventsWrapper id='events'>
-            <Header>{data.header}</Header>
+            <Header>Arrangementer</Header>
             <CardWrapper>
-                {data.events.map((e, i) => {
+                {data.map((e, i) => {
+                    // console.log(e)
                     return <Event key={i.toString()} event={e} />
                 })}
             </CardWrapper>

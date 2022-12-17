@@ -1,34 +1,51 @@
 import Link from 'next/link'
 import styled from 'styled-components'
+import Error from '../Error/Error'
+import Loading from '../Loading/Loading'
+import useMedia from '../../../Hooks/useMedia'
 
 export const Slide = ({ data }) => {
+    const { data: image, isLoading, isError } = useMedia(data.acf.image)
+    if (isLoading) return <Loading />
+    if (isError)
+        return (
+            <h1>
+                <Error />, {isError}
+            </h1>
+        )
     return (
         <Wrapper
             style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${data.image})`,
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${image.guid.rendered})`,
             }}>
-            <h1>{data.header}</h1>
-            <h2>{data.subheader}</h2>
+            <h1>{data.title.rendered}</h1>
+            <h2>{data.acf.subheader}</h2>
             <div
                 dangerouslySetInnerHTML={{
-                    __html: data.content,
+                    __html: data.acf.content,
                 }}></div>
-                {data.cta && (
-            <Link href={data.url} passHref>
-                <Button>
-                    {data.cta}
-                </Button>
-            </Link>
+            {data.cta && (
+                <Link href={data.acf.url} passHref>
+                    <Button>{data.acf.cta}</Button>
+                </Link>
             )}
         </Wrapper>
     )
 }
 export const ThumbSlide = ({ data }) => {
+    const { data: image, isLoading, isError } = useMedia(data.acf.image)
+    if (isLoading) return <Loading />
+    if (isError)
+        return (
+            <h1>
+                <Error />, {isError}
+            </h1>
+        )
     return (
         <Thumbnail
             className='thumbnail'
             style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${data.image})`,
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${image.guid.rendered})`,
             }}>
             <h1>{data.header}</h1>
         </Thumbnail>
