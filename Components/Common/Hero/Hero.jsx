@@ -26,6 +26,7 @@ const Hero = () => {
                 <Error />, {isError}
             </h1>
         )
+    const sorted_data = data.sort((a, b) => a.menu_order - b.menu_order)
     return (
         <HeroSection id='top'>
             <Swiper
@@ -44,7 +45,7 @@ const Hero = () => {
                 }}
                 modules={[Navigation, Thumbs]}
                 className='myHeroSwiper'>
-                {data.map((item, i) => {
+                {sorted_data.map((item, i) => {
                     return (
                         <SwiperSlide className='slides' key={i.toString()}>
                             <Slide data={item} />

@@ -25,7 +25,7 @@ export const Slide = ({ data }) => {
                 dangerouslySetInnerHTML={{
                     __html: data.acf.content,
                 }}></div>
-            {data.cta && (
+            {data.acf.cta && (
                 <Link href={data.acf.url} passHref>
                     <Button>{data.acf.cta}</Button>
                 </Link>
