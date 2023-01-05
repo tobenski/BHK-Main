@@ -115,7 +115,7 @@ const Wrapper = styled.div`
         font-size: 0.85rem;
         margin-bottom: 1.5rem;
     }
-    .inner {
+    #inner {
         max-width: 75%;
     }
     @media only screen and (min-width: 640px) {
