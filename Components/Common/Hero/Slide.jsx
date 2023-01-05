@@ -47,7 +47,7 @@ export const ThumbSlide = ({ data }) => {
             style={{
                 backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${image.guid.rendered})`,
             }}>
-            <h1>{data.header}</h1>
+            <h1>{data.title.rendered}</h1>
         </Thumbnail>
     )
 }
