@@ -21,6 +21,7 @@ export const Slide = ({ data }) => {
             <h1>{data.title.rendered}</h1>
             <h2>{data.acf.subheader}</h2>
             <div
+                id='inner'
                 dangerouslySetInnerHTML={{
                     __html: data.acf.content,
                 }}></div>
@@ -114,7 +115,7 @@ const Wrapper = styled.div`
         font-size: 0.85rem;
         margin-bottom: 1.5rem;
     }
-    div {
+    .inner {
         max-width: 75%;
     }
     @media only screen and (min-width: 640px) {
