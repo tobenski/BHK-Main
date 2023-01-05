@@ -117,7 +117,10 @@ const Wrapper = styled.div`
     }
     #inner {
         max-width: 75%;
-        background-color: rgba(0, 0, 0, 0.8);
+        background-color: rgba(0, 0, 0, 0.15);
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        border-radius: 1rem;
     }
     @media only screen and (min-width: 640px) {
         h1 {
