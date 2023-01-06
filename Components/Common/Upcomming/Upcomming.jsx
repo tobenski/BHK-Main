@@ -23,7 +23,20 @@ const Upcomming = () => {
                 <Error />, {isError}
             </h1>
         )
-
+    const getTidspunkt = (date, time) => {
+        return new Date(
+            date.slice(0, 4),
+            date.slice(4, 6) - 1,
+            date.slice(6),
+            time.slice(0, 2),
+            time.slice(3, 5)
+        )
+    }
+    const sortedData = data.sort(
+        (a, b) =>
+            getTidspunkt(a.acf.date, a.acf.time).getTime() -
+            getTidspunkt(b.acf.date, b.acf.time).getTime()
+    )
     return (
         <Games id='games'>
             <Header>Kommende Kampe</Header>
@@ -37,9 +50,8 @@ const Upcomming = () => {
                 }}
                 modules={[Pagination, Navigation]}
                 className='wrapper'>
-                {data.map((game, i) => {
-                    const [day, month, year] = game.date.split('-')
-                    const date = new Date(year, month - 1, day)
+                {sortedData.map((game, i) => {
+                    const date = getTidspunkt(game.acf.date, game.acf.time)
                     if (date <= Date.now()) {
                         return
                     }
@@ -55,7 +67,7 @@ const Upcomming = () => {
 }
 
 const Slide = ({ data }) => {
-    const dato = new Date(
+    const tidspunkt = new Date(
         data.acf.date.slice(0, 4),
         data.acf.date.slice(4, 6) - 1,
         data.acf.date.slice(6),
@@ -75,7 +87,9 @@ const Slide = ({ data }) => {
         : data.acf.opponent + ' <> Brædstrup HK'
     return (
         <Inner>
-            <DateWrapper>{dato.toLocaleString('da-DK', options)}</DateWrapper>
+            <DateWrapper>
+                {tidspunkt.toLocaleString('da-DK', options)}
+            </DateWrapper>
             <CardHeader
                 dangerouslySetInnerHTML={{
                     __html: header,
