@@ -60,6 +60,9 @@ const Medlemskab = ({ data, teams, error }) => {
                 <h1>{data.title.rendered}</h1>
                 <HoldWrapper>
                     <HoldListe>
+                        <Hold onClick={() => setGruppeId(null)}>
+                            <strong>Tilmelding</strong>
+                        </Hold>
                         {teams.map((t, i) => {
                             return (
                                 <Hold
@@ -180,6 +183,7 @@ const Hold = styled.button`
     border: none;
     padding: 0.5rem 3rem;
     color: var(--text-color);
+    cursor: pointer;
     &:hover,
     &:focus {
         background-color: var(--bg-page-content-hover-hold);
