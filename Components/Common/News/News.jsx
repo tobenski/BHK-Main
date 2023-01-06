@@ -19,7 +19,6 @@ const News = () => {
         )
     const sorted_data = data.sort((a, b) => a.menu_order - b.menu_order)
     return (
-        // console.log(Date.now());
         <NewsWrapper id='nyheder'>
             <Header>Nyheder</Header>
             <CardWrapper>
@@ -77,7 +76,7 @@ const CardWrapper = styled.div`
 
 const NewsCard = ({ card }) => {
     const { data: image, isLoading, isError } = useMedia(card.acf.image)
-    const { openModal, setModal } = useSiteContext()
+    const { openModal } = useSiteContext()
     if (isLoading) return <Loading />
     if (isError)
         return (
