@@ -88,16 +88,7 @@ const NewsCard = ({ card }) => {
     return (
         <Card onClick={() => openModal(card, image)}>
             <CardImage src={image.guid.rendered} alt={card.title.rendered} />
-            <CardHeader>
-                {card.title.rendered}
-                {/* <a
-                    // href='#'
-                    onClick={() => openModal(card)}
-                    dangerouslySetInnerHTML={{
-                        __html: card.title.rendered,
-                    }}></a> */}
-                {/* TODO LAV DET TIL EN NEXT LINK DER RAMMER EN INTERN SIDE MED NYHEDEN (ELLER EN MODAL MED NYHEDEN) */}
-            </CardHeader>
+            <CardHeader>{card.title.rendered}</CardHeader>
             <CardContent
                 dangerouslySetInnerHTML={{
                     __html: card.acf.manchet,

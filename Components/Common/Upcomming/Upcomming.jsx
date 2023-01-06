@@ -55,26 +55,35 @@ const Upcomming = () => {
 }
 
 const Slide = ({ data }) => {
+    const dato = new Date(
+        data.acf.date.slice(0, 4),
+        data.acf.date.slice(4, 6) - 1,
+        data.acf.date.slice(6),
+        data.acf.time.slice(0, 2),
+        data.acf.time.slice(3, 5)
+    )
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+    }
+    const header = data.acf.home
+        ? 'Brædstrup HK <> ' + data.acf.opponent
+        : data.acf.opponent + ' <> Brædstrup HK'
     return (
         <Inner>
+            <DateWrapper>{dato.toLocaleString('da-DK', options)}</DateWrapper>
             <CardHeader
                 dangerouslySetInnerHTML={{
-                    __html: 'Brædstrup HK vs. ' + data.acf.opponent,
+                    __html: header,
                 }}></CardHeader>
             <CardSubHeader>{data.acf.team}</CardSubHeader>
-            <DateWrapper>{data.acf.date + ' ' + data.acf.time}</DateWrapper>
-            <Location>
-                {data.acf.home ? 'Brædstrup Hallen' : data.acf.opponent}
-            </Location>
         </Inner>
     )
 }
-
-// TODO JEg tror kortet skal laves om til:
-// Dato & Tid
-// Title med Hvem spillle fx. Brædstrup HK vs Stensballe IK 2
-// Hvilket Hold fx. U-13 Piger
-// Hvorhenne.
 
 const Games = styled.section`
     display: flex;
@@ -93,7 +102,7 @@ const Games = styled.section`
             text-decoration: none;
             margin-bottom: 3rem;
             // margin: 3rem 0;
-            max-width: 20vw;
+            max-width: 40vw;
             border-radius: 0.5rem;
             box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
             a {
@@ -120,26 +129,29 @@ const Inner = styled.div`
     border-radius: 0.5rem;
     box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
 `
-const CardHeader = styled.h3`
+const CardHeader = styled.h5`
     color: var(--text-color);
     text-align: center;
     margin-bottom: 0.5rem;
-    font-size: 2rem;
+    /* font-size: 2rem; */
     font-weight: 900;
 `
 
-const CardSubHeader = styled.h4`
+const CardSubHeader = styled.h6`
     color: var(--text-color);
     text-align: center;
     margin-bottom: 0.5rem;
-    font-size: 1.2rem;
+    /* font-size: 1.2rem; */
     font-weight: 900;
 `
-const DateWrapper = styled.time`
+const DateWrapper = styled.h3`
     font-size: 1rem;
     text-decoration: none;
     color: var(--text-color);
     margin-bottom: 0.5rem;
+    ::first-letter {
+        text-transform: capitalize;
+    }
 `
 const Location = styled.div`
     font-size: 1rem;
