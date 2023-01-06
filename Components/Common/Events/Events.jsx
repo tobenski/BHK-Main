@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Loading from '../Loading/Loading'
 import Error from '../Error/Error'
 import Event from './Event'
+import { getTidspunkt } from '../../../Utils/functions'
 
 const Events = () => {
     const { data, isLoading, isError } = useEvents()
@@ -14,15 +15,18 @@ const Events = () => {
                 <Error />, {isError}
             </h1>
         )
-    // console.log(data)
     return (
         <EventsWrapper id='events'>
             <Header>Arrangementer</Header>
             <CardWrapper>
-                {data.map((e, i) => {
-                    // console.log(e)
-                    return <Event key={i.toString()} event={e} />
-                })}
+                {data
+                    .sort((a, b) => new Date(a.acf.date) - new Date(b.acf.date))
+                    .map((e, i) => {
+                        if (new Date(e.acf.date) <= Date.now()) {
+                            return
+                        }
+                        return <Event key={i.toString()} event={e} />
+                    })}
             </CardWrapper>
         </EventsWrapper>
     )

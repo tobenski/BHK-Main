@@ -3,8 +3,6 @@ import styled from 'styled-components'
 import Loading from '../Loading/Loading'
 import Error from '../Error/Error'
 import useMedia from '../../../Hooks/useMedia'
-import { useState } from 'react'
-import Modal from '../Modal/Modal'
 import { useSiteContext } from '../../../contexts/siteContext'
 
 const News = () => {
@@ -106,7 +104,7 @@ const Card = styled.article`
     box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
     background-image: linear-gradient(
         var(--card-gradient),
-        white max(9.5rem, 27ch)
+        white max(12.5rem, 47ch)
     );
     overflow: hidden;
     max-width: 95%;

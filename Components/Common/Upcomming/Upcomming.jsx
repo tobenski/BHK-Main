@@ -2,6 +2,7 @@ import useGames from '../../../Hooks/useGames'
 import styled from 'styled-components'
 import Error from '../Error/Error'
 import Loading from '../Loading/Loading'
+import { getTidspunkt } from '../../../Utils/functions'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -23,15 +24,6 @@ const Upcomming = () => {
                 <Error />, {isError}
             </h1>
         )
-    const getTidspunkt = (date, time) => {
-        return new Date(
-            date.slice(0, 4),
-            date.slice(4, 6) - 1,
-            date.slice(6),
-            time.slice(0, 2),
-            time.slice(3, 5)
-        )
-    }
     const sortedData = data.sort(
         (a, b) =>
             getTidspunkt(a.acf.date, a.acf.time).getTime() -
@@ -67,13 +59,7 @@ const Upcomming = () => {
 }
 
 const Slide = ({ data }) => {
-    const tidspunkt = new Date(
-        data.acf.date.slice(0, 4),
-        data.acf.date.slice(4, 6) - 1,
-        data.acf.date.slice(6),
-        data.acf.time.slice(0, 2),
-        data.acf.time.slice(3, 5)
-    )
+    const tidspunkt = getTidspunkt(data.acf.date, data.acf.time)
     const options = {
         weekday: 'long',
         year: 'numeric',

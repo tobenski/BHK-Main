@@ -2,9 +2,11 @@ import styled from 'styled-components'
 import useMedia from '../../../Hooks/useMedia'
 import Loading from '../Loading/Loading'
 import Error from '../Error/Error'
+import { useSiteContext } from '../../../contexts/siteContext'
 
 const Event = ({ event }) => {
     const { data, isLoading, isError } = useMedia(event.acf.image)
+    const { openModal } = useSiteContext()
     if (isLoading) return <Loading />
     if (isError)
         return (
@@ -12,18 +14,23 @@ const Event = ({ event }) => {
                 <Error />, {isError}
             </h1>
         )
+    const tidspunkt = new Date(event.acf.date)
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+    }
     return (
-        <Card>
+        <Card onClick={() => openModal(event, data)}>
             <CardImage src={data.guid.rendered} />
-            <CardHeader>
-                <a href={event.link}>{event.title.rendered}</a>
-            </CardHeader>
-            <Subtitle>{event.acf.subtitle}</Subtitle>
-            <DateWrap>{event.acf.date}</DateWrap>
-            {/* TODO: make data af time / date field */}
+            <CardHeader>{event.title.rendered}</CardHeader>
+            <DateWrap>{tidspunkt.toLocaleString('da-DK', options)}</DateWrap>
             <CardContent
                 dangerouslySetInnerHTML={{
-                    __html: event.acf.content,
+                    __html: event.acf.content.slice(0, 200) + '...',
                 }}></CardContent>
         </Card>
     )
@@ -39,11 +46,12 @@ const Card = styled.article`
     box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
     background-image: linear-gradient(
         var(--card-gradient),
-        white max(9.5rem, 27ch)
+        white max(12.5rem, 47ch)
     );
     overflow: hidden;
     max-width: 100%;
     width: 40ch;
+    cursor: pointer;
     > :last-child {
         margin-bottom: 0;
     }
@@ -76,10 +84,12 @@ const CardHeader = styled.h3`
 const Subtitle = styled.h4`
     margin-bottom: 0.5rem;
 `
-const DateWrap = styled.h5`
-    // font-size: 0.75rem;
+const DateWrap = styled.h6`
     margin-bottom: 0.5rem;
     opacity: 80%;
+    ::first-letter {
+        text-transform: capitalize;
+    }
 `
 const CardContent = styled.div`
     padding-bottom: 2rem;
