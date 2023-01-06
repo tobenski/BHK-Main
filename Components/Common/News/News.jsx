@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import Loading from '../Loading/Loading'
 import Error from '../Error/Error'
 import useMedia from '../../../Hooks/useMedia'
+import { useState } from 'react'
+import Modal from '../Modal/Modal'
+import { useSiteContext } from '../../../contexts/siteContext'
 
 const News = () => {
     const { data, isLoading, isError } = useNews()
@@ -14,13 +17,27 @@ const News = () => {
                 <Error />, {isError}
             </h1>
         )
-
+    const sorted_data = data.sort((a, b) => a.menu_order - b.menu_order)
     return (
+        // console.log(Date.now());
         <NewsWrapper id='nyheder'>
             <Header>Nyheder</Header>
             <CardWrapper>
-                {data.map((n, i) => {
-                    return <NewsCard key={i.toString()} card={n} />
+                {sorted_data.map((n, i) => {
+                    const dato = new Date()
+                    if (n.acf.udlobsdato) {
+                        dato.setFullYear(n.acf.udlobsdato.slice(0, 4))
+                        dato.setMonth(n.acf.udlobsdato.slice(4, 6) - 1)
+                        dato.setDate(n.acf.udlobsdato.slice(6))
+                    } else {
+                        dato.setFullYear(2199)
+                    }
+                    return (
+                        n.acf.online &&
+                        new Date() < dato && (
+                            <NewsCard key={i.toString()} card={n} />
+                        )
+                    )
                 })}
             </CardWrapper>
         </NewsWrapper>
@@ -31,9 +48,12 @@ const NewsWrapper = styled.section`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     text-align: center;
     width: 100%;
     margin-bottom: 4rem;
+    margin-left: auto;
+    margin-right: auto;
 `
 const Header = styled.h2`
     margin-bottom: 2rem;
@@ -57,6 +77,7 @@ const CardWrapper = styled.div`
 
 const NewsCard = ({ card }) => {
     const { data: image, isLoading, isError } = useMedia(card.acf.image)
+    const { openModal, setModal } = useSiteContext()
     if (isLoading) return <Loading />
     if (isError)
         return (
@@ -65,14 +86,16 @@ const NewsCard = ({ card }) => {
             </h1>
         )
     return (
-        <Card>
+        <Card onClick={() => openModal(card, image)}>
             <CardImage src={image.guid.rendered} alt={card.title.rendered} />
             <CardHeader>
-                <a
-                    href={card.acf.url}
+                {card.title.rendered}
+                {/* <a
+                    // href='#'
+                    onClick={() => openModal(card)}
                     dangerouslySetInnerHTML={{
                         __html: card.title.rendered,
-                    }}></a>
+                    }}></a> */}
                 {/* TODO LAV DET TIL EN NEXT LINK DER RAMMER EN INTERN SIDE MED NYHEDEN (ELLER EN MODAL MED NYHEDEN) */}
             </CardHeader>
             <CardContent
@@ -96,7 +119,10 @@ const Card = styled.article`
         white max(9.5rem, 27ch)
     );
     overflow: hidden;
-    max-width: 80%;
+    max-width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
 
     > :last-child {
         margin-bottom: 0;

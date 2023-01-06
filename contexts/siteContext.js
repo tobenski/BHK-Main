@@ -8,6 +8,26 @@ export const SiteProvider = ({ children }) => {
     const [navi, setNavi] = useState([])
     const [error, setError] = useState(false)
 
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [modal, setModal] = useState(null)
+    const [modalImage, setModalImage] = useState(null)
+
+    const toggleModal = () => {
+        setModalIsOpen(!modalIsOpen)
+    }
+
+    const openModal = (card, image) => {
+        setModal(card)
+        setModalImage(image)
+        setModalIsOpen(true)
+    }
+
+    const closeModal = () => {
+        setModal(null)
+        setModalImage(null)
+        setModalIsOpen(false)
+    }
+
     const toggleNav = () => {
         setNavIsOpen(!navIsOpen)
     }
@@ -44,6 +64,14 @@ export const SiteProvider = ({ children }) => {
                 closeNav,
                 navi,
                 error,
+                modalIsOpen,
+                setModalIsOpen,
+                toggleModal,
+                openModal,
+                closeModal,
+                modal,
+                setModal,
+                modalImage,
                 // token,
             }}>
             {children}
