@@ -2,7 +2,6 @@ import Link from 'next/link'
 import styled from 'styled-components'
 import useSettings from '../../../Hooks/useSettings'
 import { FaEnvelope } from 'react-icons/fa'
-import { IoPerson } from 'react-icons/io5'
 import Loading from '../Loading/Loading'
 
 const Kontakt = () => {
@@ -19,13 +18,6 @@ const Kontakt = () => {
                     <FaEnvelope className='icon mail' /> {data.kontakt.mail}
                 </a>
             </Mail>
-            <Person>
-                <Link href={data.kontakt.url}>
-                    <a>
-                        <IoPerson className='icon person' /> Find Kontakt
-                    </a>
-                </Link>
-            </Person>
         </Column>
     )
 }
@@ -41,12 +33,6 @@ const Mail = styled.div`
     text-align: center;
     width: 100%;
 `
-const Person = styled.div`
-    font-size: 1.6rem;
-    text-align: center;
-    width: 100%;
-`
-
 const Column = styled.div`
     display: flex;
     flex-direction: column;
