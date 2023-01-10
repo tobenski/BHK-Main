@@ -14,6 +14,11 @@ const nextConfig = {
                 hostname: '*.tobenski.dk',
                 pathname: '**',
             },
+            {
+                protocol: 'http',
+                hostname: 'localhost',
+                pathname: '**',
+            },
         ],
     },
 }

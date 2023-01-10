@@ -42,9 +42,11 @@ export const SiteProvider = ({ children }) => {
 
     const getNavi = async () => {
         try {
-            const resp = await fetch(`${navigationApi}main`)
+            // const resp = await fetch(`${navigationApi}main`)
+            const resp = await fetch(`${navigationApi}`)
             const data = await resp.json()
-            setNavi(data.items)
+            // console.log(data)
+            setNavi(data)
         } catch (error) {
             setError(error)
         }

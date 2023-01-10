@@ -32,4 +32,5 @@ export const mediaApi = (mediaId) => {
     return `${baseApi}wp/v2/media/${mediaId}`
 }
 // export const navigationApi = `https://bhk.tobenski.dk/api/tobenski/v1/menu`
-export const navigationApi = `${process.env.NEXT_PUBLIC_API_BASE}menus/v1/menus/`
+// export const navigationApi = `${process.env.NEXT_PUBLIC_API_BASE}menus/v1/menus/`
+export const navigationApi = `${process.env.NEXT_PUBLIC_API_BASE}tobenski/navigation/`
