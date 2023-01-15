@@ -6,7 +6,7 @@ import { teamsRegex } from '../Utils/regex'
 import { findMatches } from '../Utils/functions'
 import HoldPopup from '../Components/Medlemskab/HoldPopup'
 import { useState } from 'react'
-import { pagesApi } from '../Utils/api'
+import { pagesApi, settingsApi } from '../Utils/api'
 import useMedia from '../Hooks/useMedia'
 
 export const getServerSideProps = async (context) => {
@@ -19,6 +19,11 @@ export const getServerSideProps = async (context) => {
             }
         }
         const data = ar[0]
+        if (!data.featured_media) {
+            const resp = await fetch(`${settingsApi}settings`)
+            const settings = await resp.json()
+            data.featured_media = settings.default_image
+        }
         const teamResp = await fetch(holdOversigtUrl())
         const teamData = await teamResp.text()
         const teams = findMatches(teamsRegex, teamData)
