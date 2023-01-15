@@ -1,22 +1,28 @@
-import { pagesApi } from '../Utils/api'
+import { pagesApi, settingsApi } from '../Utils/api'
 import styled from 'styled-components'
 import Loading from '../Components/Common/Loading/Loading'
 import Error from '../Components/Common/Error/Error'
 import useMedia from '../Hooks/useMedia'
+import useSettings from '../Hooks/useSettings'
 
 export const getServerSideProps = async (ctx) => {
     try {
         const resp = await fetch(pagesApi(ctx.params.page))
         const ar = await resp.json()
-
         if (!ar.length) {
             return {
                 notFound: true,
             }
         }
+        const data = ar[0]
+        if (!data.featured_media) {
+            const resp = await fetch(`${settingsApi}settings`)
+            const settings = await resp.json()
+            data.featured_media = settings.default_image
+        }
         return {
             props: {
-                data: ar[0],
+                data,
             },
         }
     } catch (error) {
@@ -29,7 +35,7 @@ export const getServerSideProps = async (ctx) => {
 
 const Page = ({ data, error }) => {
     const { data: image, isLoading, isError } = useMedia(data.featured_media)
-    if (isLoading || !data) return <Loading />
+    if (isLoading || !data || !image) return <Loading />
     if (error || isError)
         return (
             <h1>
