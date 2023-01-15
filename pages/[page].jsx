@@ -50,7 +50,6 @@ const Page = ({ data, error }) => {
             <h1>{data.title.rendered}</h1>
             <Content
                 dangerouslySetInnerHTML={{ __html: data.content.rendered }}
-                // dangerouslySetInnerHTML={{ __html: page }}
             />
         </Wrapper>
     )
