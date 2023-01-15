@@ -12,7 +12,7 @@ const Sponsors = () => {
 
     if (isLoading) return <Loading />
     if (isError) return <h1>ERROR, {isError}</h1>
-
+    if (data.length == 0) return <></>
     return (
         <SponserSection id='sponsor'>
             <Header>Støt sponsorne - De støtter os...</Header>

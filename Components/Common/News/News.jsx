@@ -15,6 +15,7 @@ const News = () => {
                 <Error />, {isError}
             </h1>
         )
+    if (data.length == 0) return <></>
     const sorted_data = data.sort((a, b) => a.menu_order - b.menu_order)
     return (
         <NewsWrapper id='nyheder'>

@@ -15,6 +15,7 @@ const Events = () => {
                 <Error />, {isError}
             </h1>
         )
+    if (data.length == 0) return <></>
     return (
         <EventsWrapper id='events'>
             <Header>Arrangementer</Header>

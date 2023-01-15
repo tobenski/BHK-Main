@@ -24,6 +24,7 @@ const Upcomming = () => {
                 <Error />, {isError}
             </h1>
         )
+    if (data.length == 0) return <></>
     const sortedData = data.sort(
         (a, b) =>
             getTidspunkt(a.acf.date, a.acf.time).getTime() -
