@@ -14,7 +14,7 @@ export const apiCall = async (url) => {
  * and making the frontend page logic easier.
  */
 export const teamApi = (id) => {
-    return `${process.env.NEXT_PUBLIC_HOST}/api/team?id=${id}`
+    return `${process.env.NEXT_PUBLIC_HOST}api/team?id=${id}`
 }
 
 /**
